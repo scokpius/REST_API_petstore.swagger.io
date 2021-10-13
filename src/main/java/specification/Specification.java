@@ -3,6 +3,7 @@ package specification;
 import data_classes.Inventory;
 import data_classes.Order;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.config.*;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
@@ -11,17 +12,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.mapper.ObjectMapperType.GSON;
 
 public class Specification {
 
     private static final String BASE_URL = "https://petstore.swagger.io";
     private static final String BASE_PATH = "/v2/store";
 
+    private static final RestAssuredConfig CONFIG = RestAssuredConfig.config()
+            .decoderConfig(new DecoderConfig("UTF-8"))
+            .encoderConfig(new EncoderConfig("UTF-8", "UTF-8"))
+            .objectMapperConfig(new ObjectMapperConfig(GSON));
+
     public static RequestSpecification requestSpecification = new RequestSpecBuilder()
             .setBaseUri(BASE_URL)
             .setBasePath(BASE_PATH)
             .setAccept(ContentType.JSON)
             .setContentType(ContentType.JSON)
+            .setConfig(CONFIG)
+//            .setConfig(RestAssured.config()
+//                    .objectMapperConfig(new ObjectMapperConfig(ObjectMapperType.GSON)))  // GSon почитать как настроить
             .build();
 
 
