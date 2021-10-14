@@ -1,22 +1,21 @@
 package specification;
 
-import data_classes.Inventory;
 import data_classes.Order;
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.config.*;
+import io.restassured.config.DecoderConfig;
+import io.restassured.config.EncoderConfig;
+import io.restassured.config.ObjectMapperConfig;
+import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.mapper.ObjectMapperType.GSON;
 
 public class Specification {
 
-    private static final String BASE_URL = "https://petstore.swagger.io";
+    private static final String BASE_URL = "https://petstore.swagger.io/";
     private static final String BASE_PATH = "/v2/store";
 
     private static final RestAssuredConfig CONFIG = RestAssuredConfig.config()
@@ -30,8 +29,7 @@ public class Specification {
             .setAccept(ContentType.JSON)
             .setContentType(ContentType.JSON)
             .setConfig(CONFIG)
-//            .setConfig(RestAssured.config()
-//                    .objectMapperConfig(new ObjectMapperConfig(ObjectMapperType.GSON)))  // GSon почитать как настроить
+    //        .log(LogDetail.ALL)
             .build();
 
 
@@ -48,18 +46,17 @@ public class Specification {
         return given().spec(requestSpecification)
                 .body(order)
                 .when()
-                .contentType(ContentType.JSON)
                 .post("order")
                 .then()
                 .log().all();
 
     }
 
-    public ValidatableResponse findPurchaseOrderByID(String orderID) {
+    public ValidatableResponse findPurchaseOrderByID(int orderID) {
         return given().spec(requestSpecification)
                 .body(orderID)
                 .when()
-                .get("order" + orderID)
+                .get("order/" + orderID)
                 .then()
                 .log().all();
     }
@@ -72,18 +69,4 @@ public class Specification {
                 .then()
                 .log().all();
     }
-
-    public Inventory getInventories() {
-
-        String inventoryMap = this.returnsPetInventoriesByStatus().extract().body().asString();
-        String[] keyMap = inventoryMap.split(",");
-        Map<String, Integer> inventorMap = new HashMap<>();
-        for (String pair : keyMap) {
-            String[] entry = pair.split(":");
-            inventorMap.put(entry[0].trim(), Integer.parseInt(entry[1].trim()));
-        }
-        return Inventory.builder().inventory(inventorMap).build();
-    }
-
-
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class Order {
 
-    private int id;
+    private long id;
     private int petId;
     private int quantity;
     private String shipDate;
