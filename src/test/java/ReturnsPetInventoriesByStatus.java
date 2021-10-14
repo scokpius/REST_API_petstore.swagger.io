@@ -54,7 +54,7 @@ public class ReturnsPetInventoriesByStatus {
                 .statusCode(200);
 
         spec.findPurchaseOrderByID(25)
-                .statusCode(200);
+                .statusCode(200); //
 
     }
 
@@ -64,7 +64,7 @@ public class ReturnsPetInventoriesByStatus {
                 .statusCode(200);
         ApiResponse extendsResponse = ApiResponse.builder()
                 .code(1)
-                .type().build();
+                .type("").build();
         ApiResponse actualResponse = spec.findPurchaseOrderByID(-1)
                 .statusCode(404)
                 .extract()
