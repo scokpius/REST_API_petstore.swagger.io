@@ -61,7 +61,7 @@ public class Specification {
                 .log().all();
     }
 
-    public ValidatableResponse deletePurchaseOrderByID(String orderID) {
+    public ValidatableResponse deletePurchaseOrderByID(int orderID) {
         return given().spec(requestSpecification)
                 .body(orderID)
                 .when()
