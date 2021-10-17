@@ -23,7 +23,7 @@ public class Specification {
             .encoderConfig(new EncoderConfig("UTF-8", "UTF-8"))
             .objectMapperConfig(new ObjectMapperConfig(GSON));
 
-    public static RequestSpecification requestSpecification = new RequestSpecBuilder()
+    private static RequestSpecification requestSpecification = new RequestSpecBuilder()
             .setBaseUri(BASE_URL)
             .setBasePath(BASE_PATH)
             .setAccept(ContentType.JSON)
