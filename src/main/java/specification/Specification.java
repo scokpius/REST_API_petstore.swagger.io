@@ -65,7 +65,7 @@ public class Specification {
         return given().spec(requestSpecification)
                 .body(orderID)
                 .when()
-                .delete("order" + orderID)
+                .delete("order/" + orderID)
                 .then()
                 .log().all();
     }
