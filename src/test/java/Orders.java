@@ -15,6 +15,11 @@ class Orders {
             .complete(true)
             .build();
 
+    static final Order ORDER_NO_BODY = Order.builder()
+            .build();
+    static final Order ORDER_NO_BODY1 = Order.builder()
+            .id(8)
+            .build();
     static final Order ORDER_WITH_ID_5 = Order.builder()
             .id(5)
             .petId(258)
@@ -25,7 +30,7 @@ class Orders {
             .build();
 
     static final Order ORDER_WITH_ID_MINUS_50 = Order.builder()
-            .id(-50) //922337203
+            .id(-50)
             .petId(123456789)
             .quantity(4)
             .shipDate(getShipDate())

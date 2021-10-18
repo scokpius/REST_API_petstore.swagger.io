@@ -8,8 +8,7 @@ import specification.Specification;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class ReturnsPetInventoriesByStatus {
@@ -18,7 +17,7 @@ class ReturnsPetInventoriesByStatus {
     @Test
     void returnsPetInventoriesByStatus() {
         Gson gson = new Gson();
-        Map map = new HashMap<>();
+        Map<String,Integer> map = new HashMap<>();
         map =  gson.fromJson(
                 spec.returnsPetInventoriesByStatus()
                         .statusCode(200)
@@ -36,27 +35,37 @@ class ReturnsPetInventoriesByStatus {
     @Test
     void placeAnCorrectOrderForAPet() {
         Order actualOrder = Orders.ORDER_WITH_ID_1;
-        Order extendOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_1)
+        Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_1)
                 .statusCode(200)
                 .extract()
                 .body()
                 .as(Order.class);
-        assertEquals(extendOrder, actualOrder);
+        assertEquals(expectedOrder, actualOrder);
+    }
+
+    @Test
+    void placeAnNoBodyOrderForAPet() {
+        Order expectedOrder = Orders.ORDER_NO_BODY;
+        Order actualOrder = spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY)
+                .extract()
+                .body()
+                .as(Order.class);
+        assertNotEquals(expectedOrder, actualOrder);
     }
 
     @Test
     void placeAnNonCorrectOrderForAPet() {
-        Order extendOrder = Orders.ORDER_WITH_ID_MINUS_50;
+        Order expectedOrder = Orders.ORDER_WITH_ID_MINUS_50;
         Order actualOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_MINUS_50)
                 .extract()
                 .body()
                 .as(Order.class);
-        assertTrue(extendOrder.getId() != actualOrder.getId());
+        assertTrue(expectedOrder.getId() != actualOrder.getId());
     }
 
     @Test
     void findExistentPurchaseOrderByID() {
-        Order extendOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_25)
+        Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_25)
                 .statusCode(200)
                 .extract()
                 .body()
@@ -66,20 +75,35 @@ class ReturnsPetInventoriesByStatus {
                 .extract()
                 .body()
                 .as(Order.class);
-        assertEquals(extendOrder, actualOrder);
+        assertEquals(expectedOrder, actualOrder);
+    }
+
+    @Test  // оставлять ли тест?
+    void findExistentPurchaseOrderByID400() {
+        Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY1)
+                .statusCode(200)
+                .extract()
+                .body()
+                .as(Order.class);
+        Order actualOrder = spec.findPurchaseOrderByID(8)
+                .statusCode(200)
+                .extract()
+                .body()
+                .as(Order.class);
+        assertEquals(expectedOrder, actualOrder);
     }
 
     @Test
     void findANonExistentPurchaseOrderByID() {
         spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_MINUS_1)
                 .statusCode(200);
-        ApiResponse extendsResponse = ApiResponses.API_RESPONSE_FIND_NON_EXISTENT_ORDER;
+        ApiResponse expectedResponse = ApiResponses.API_RESPONSE_FIND_NON_EXISTENT_ORDER;
         ApiResponse actualResponse = spec.findPurchaseOrderByID(-1)
                 .statusCode(404)
                 .extract()
                 .body()
                 .as(ApiResponse.class);
-        assertEquals(extendsResponse, actualResponse);
+        assertEquals(expectedResponse, actualResponse);
     }
 
     @Test
@@ -88,24 +112,38 @@ class ReturnsPetInventoriesByStatus {
                 .statusCode(200);
         spec.findPurchaseOrderByID(5)
                 .statusCode(200);
-        ApiResponse extendsResponse = ApiResponses.API_RESPONSE_DELETE_EXISTENT_ORDER;
+        ApiResponse expectedResponse = ApiResponses.API_RESPONSE_DELETE_EXISTENT_ORDER;
         ApiResponse actualResponse = spec.deletePurchaseOrderByID(5)
                 .statusCode(200)
                 .extract()
                 .body()
                 .as(ApiResponse.class);
-        assertEquals(extendsResponse, actualResponse);
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test // оставлять ли тест?
+    void deleteExistentPurchaseOrderByID400() {
+        spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY1)
+                .statusCode(200);
+
+        ApiResponse expectedResponse = ApiResponses.API_RESPONSE_DELETE_EXISTENT_ORDER;
+        ApiResponse actualResponse = spec.deletePurchaseOrderByID(8)
+                .statusCode(400)
+                .extract()
+                .body()
+                .as(ApiResponse.class);
+        assertEquals(expectedResponse, actualResponse);
     }
 
     @Test
     void deleteANonExistentPurchaseOrderByID() {
-        ApiResponse extendsResponse = ApiResponses.API_RESPONSE_DELETE_NON_EXISTENT_ORDER;
+        ApiResponse expectedResponse = ApiResponses.API_RESPONSE_DELETE_NON_EXISTENT_ORDER;
 
         ApiResponse actualResponse = spec.deletePurchaseOrderByID(3)
                 .statusCode(404)
                 .extract()
                 .body()
                 .as(ApiResponse.class);
-        assertEquals(extendsResponse, actualResponse);
+        assertEquals(expectedResponse, actualResponse);
     }
 }
