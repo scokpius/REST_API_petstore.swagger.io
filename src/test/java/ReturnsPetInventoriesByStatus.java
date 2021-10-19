@@ -2,37 +2,35 @@ import com.google.gson.Gson;
 import data_classes.ApiResponse;
 import data_classes.Inventory;
 import data_classes.Order;
+import io.qameta.allure.Link;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import specification.Specification;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
 class ReturnsPetInventoriesByStatus {
     private Specification spec = new Specification();
+    @BeforeEach
+    void cleanOrders() {
+        spec.deletePurchaseOrderByID(1);
+        spec.deletePurchaseOrderByID(8);
+        spec.deletePurchaseOrderByID(5);
+        spec.deletePurchaseOrderByID(25);
+    }
 
     @Test
+    @Link(value = "Returns pet inventories by status")
     void returnsPetInventoriesByStatus() {
-        Gson gson = new Gson();
-        Map<String,Integer> map = new HashMap<>();
-        map =  gson.fromJson(
-                spec.returnsPetInventoriesByStatus()
-                        .statusCode(200)
-                        .extract()
-                        .body()
-                        .asString(),
-                map.getClass());
         Inventory inventoryMap = Inventory.builder()
-                .inventory(map)
+                .inventory(spec.getStringIntegerMap())
                 .build();
         assertTrue(inventoryMap.getInventory().size() > 0);
     }
 
-
     @Test
+    @Link(value = "Test Case ES-10: Sorted hotels by price")
     void placeAnCorrectOrderForAPet() {
         Order actualOrder = Orders.ORDER_WITH_ID_1;
         Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_1)
@@ -44,6 +42,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
+    @Link(value = "Test Case ES-10: Sorted hotels by price")
     void placeAnNoBodyOrderForAPet() {
         Order expectedOrder = Orders.ORDER_NO_BODY;
         Order actualOrder = spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY)
@@ -54,16 +53,18 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
+    @Link(value = "Test Case ES-10: Sorted hotels by price")
     void placeAnNonCorrectOrderForAPet() {
         Order expectedOrder = Orders.ORDER_WITH_ID_MINUS_50;
         Order actualOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_MINUS_50)
                 .extract()
                 .body()
                 .as(Order.class);
-        assertTrue(expectedOrder.getId() != actualOrder.getId());
+        assertNotEquals(expectedOrder.getId(), actualOrder.getId());
     }
 
     @Test
+    @Link(value = "Test Case ES-10: Sorted hotels by price")
     void findExistentPurchaseOrderByID() {
         Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_25)
                 .statusCode(200)
@@ -78,7 +79,8 @@ class ReturnsPetInventoriesByStatus {
         assertEquals(expectedOrder, actualOrder);
     }
 
-    @Test  // оставлять ли тест?
+    @Test
+    @Link(value = "Test Case ES-10: Sorted hotels by price")
     void findExistentPurchaseOrderByID400() {
         Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY1)
                 .statusCode(200)
@@ -86,7 +88,7 @@ class ReturnsPetInventoriesByStatus {
                 .body()
                 .as(Order.class);
         Order actualOrder = spec.findPurchaseOrderByID(8)
-                .statusCode(200)
+                .statusCode(400)
                 .extract()
                 .body()
                 .as(Order.class);
@@ -94,6 +96,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
+    @Link(value = "Test Case ES-10: Sorted hotels by price")
     void findANonExistentPurchaseOrderByID() {
         spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_MINUS_1)
                 .statusCode(200);
@@ -107,6 +110,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
+    @Link(value = "Test Case ES-10: Sorted hotels by price")
     void deleteExistentPurchaseOrderByID() {
         spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_5)
                 .statusCode(200);
@@ -121,7 +125,8 @@ class ReturnsPetInventoriesByStatus {
         assertEquals(expectedResponse, actualResponse);
     }
 
-    @Test // оставлять ли тест?
+    @Test
+    @Link(value = "Test Case ES-10: Sorted hotels by price")
     void deleteExistentPurchaseOrderByID400() {
         spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY1)
                 .statusCode(200);
@@ -136,6 +141,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
+    @Link(value = "Test Case ES-10: Sorted hotels by price")
     void deleteANonExistentPurchaseOrderByID() {
         ApiResponse expectedResponse = ApiResponses.API_RESPONSE_DELETE_NON_EXISTENT_ORDER;
 

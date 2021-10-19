@@ -1,14 +1,19 @@
 package specification;
 
+import com.google.gson.Gson;
 import data_classes.Order;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.DecoderConfig;
 import io.restassured.config.EncoderConfig;
 import io.restassured.config.ObjectMapperConfig;
 import io.restassured.config.RestAssuredConfig;
+import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.mapper.ObjectMapperType.GSON;
@@ -29,11 +34,11 @@ public class Specification {
             .setAccept(ContentType.JSON)
             .setContentType(ContentType.JSON)
             .setConfig(CONFIG)
-    //        .log(LogDetail.ALL)
+            .log(LogDetail.ALL)
             .build();
 
 
-    public ValidatableResponse returnsPetInventoriesByStatus() {
+    public static ValidatableResponse returnsPetInventoriesByStatus() {
         return given().spec(requestSpecification)
                 .when()
                 .get("inventory")
@@ -69,4 +74,18 @@ public class Specification {
                 .then()
                 .log().all();
     }
+
+    public Map<String, Integer> getStringIntegerMap() {
+        Gson gson = new Gson();
+        Map<String, Integer> map = new HashMap<>();
+        map = gson.fromJson(
+                Specification.returnsPetInventoriesByStatus()
+                        .statusCode(200)
+                        .extract()
+                        .body()
+                        .asString(),
+                map.getClass());
+        return map;
+    }
+
 }
