@@ -3,7 +3,6 @@ import data_classes.ApiResponse;
 import data_classes.Inventory;
 import data_classes.Order;
 import io.qameta.allure.Link;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import specification.Specification;
 
@@ -12,13 +11,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ReturnsPetInventoriesByStatus {
     private Specification spec = new Specification();
-    @BeforeEach
-    void cleanOrders() {
-        spec.deletePurchaseOrderByID(1);
-        spec.deletePurchaseOrderByID(8);
-        spec.deletePurchaseOrderByID(5);
-        spec.deletePurchaseOrderByID(25);
-    }
+
+
+//    @BeforeEach
+//    void cleanOrders() {
+//        spec.deletePurchaseOrderByID(1);
+//        spec.deletePurchaseOrderByID(5);
+//        spec.deletePurchaseOrderByID(8);
+//        spec.deletePurchaseOrderByID(25);
+//    }
 
     @Test
     @Link(value = "Returns pet inventories by status")
@@ -29,8 +30,9 @@ class ReturnsPetInventoriesByStatus {
         assertTrue(inventoryMap.getInventory().size() > 0);
     }
 
+
     @Test
-    @Link(value = "Test Case ES-10: Sorted hotels by price")
+    @Link(value = "Returns pet inventories by status")
     void placeAnCorrectOrderForAPet() {
         Order actualOrder = Orders.ORDER_WITH_ID_1;
         Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_1)
@@ -42,7 +44,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Test Case ES-10: Sorted hotels by price")
+    @Link(value = "Returns pet inventories by status")
     void placeAnNoBodyOrderForAPet() {
         Order expectedOrder = Orders.ORDER_NO_BODY;
         Order actualOrder = spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY)
@@ -53,7 +55,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Test Case ES-10: Sorted hotels by price")
+    @Link(value = "Returns pet inventories by status")
     void placeAnNonCorrectOrderForAPet() {
         Order expectedOrder = Orders.ORDER_WITH_ID_MINUS_50;
         Order actualOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_MINUS_50)
@@ -64,7 +66,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Test Case ES-10: Sorted hotels by price")
+    @Link(value = "Returns pet inventories by status")
     void findExistentPurchaseOrderByID() {
         Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_25)
                 .statusCode(200)
@@ -80,15 +82,15 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Test Case ES-10: Sorted hotels by price")
+    @Link(value = "Returns pet inventories by status")
     void findExistentPurchaseOrderByID400() {
         Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY1)
                 .statusCode(200)
                 .extract()
                 .body()
                 .as(Order.class);
-        Order actualOrder = spec.findPurchaseOrderByID(8)
-                .statusCode(400)
+        Order actualOrder = spec.findPurchaseOrderByID(expectedOrder.getId())
+                .statusCode(200)
                 .extract()
                 .body()
                 .as(Order.class);
@@ -96,7 +98,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Test Case ES-10: Sorted hotels by price")
+    @Link(value = "Returns pet inventories by status")
     void findANonExistentPurchaseOrderByID() {
         spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_MINUS_1)
                 .statusCode(200);
@@ -110,7 +112,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Test Case ES-10: Sorted hotels by price")
+    @Link(value = "Returns pet inventories by status")
     void deleteExistentPurchaseOrderByID() {
         spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_5)
                 .statusCode(200);
@@ -126,7 +128,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Test Case ES-10: Sorted hotels by price")
+    @Link(value = "Returns pet inventories by status")
     void deleteExistentPurchaseOrderByID400() {
         spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY1)
                 .statusCode(200);
@@ -141,7 +143,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Test Case ES-10: Sorted hotels by price")
+    @Link(value = "Returns pet inventories by status")
     void deleteANonExistentPurchaseOrderByID() {
         ApiResponse expectedResponse = ApiResponses.API_RESPONSE_DELETE_NON_EXISTENT_ORDER;
 

@@ -38,7 +38,7 @@ public class Specification {
             .build();
 
 
-    public static ValidatableResponse returnsPetInventoriesByStatus() {
+    private static ValidatableResponse returnsPetInventoriesByStatus() {
         return given().spec(requestSpecification)
                 .when()
                 .get("inventory")
@@ -57,7 +57,7 @@ public class Specification {
 
     }
 
-    public ValidatableResponse findPurchaseOrderByID(int orderID) {
+    public ValidatableResponse findPurchaseOrderByID(long orderID) {
         return given().spec(requestSpecification)
                 .body(orderID)
                 .when()
@@ -74,11 +74,10 @@ public class Specification {
                 .then()
                 .log().all();
     }
-
     public Map<String, Integer> getStringIntegerMap() {
         Gson gson = new Gson();
-        Map<String, Integer> map = new HashMap<>();
-        map = gson.fromJson(
+        Map<String,Integer> map = new HashMap<>();
+        map =  gson.fromJson(
                 Specification.returnsPetInventoriesByStatus()
                         .statusCode(200)
                         .extract()
@@ -87,5 +86,4 @@ public class Specification {
                 map.getClass());
         return map;
     }
-
 }

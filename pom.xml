@@ -8,7 +8,6 @@
     <artifactId>REST_API_petstore.swagger.io</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
@@ -65,7 +64,4 @@
             <version>2.15.0</version>
         </dependency>
     </dependencies>
-
-
-
 </project>
