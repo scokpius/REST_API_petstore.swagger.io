@@ -22,7 +22,7 @@ class ReturnsPetInventoriesByStatus {
 //    }
 
     @Test
-    @Link(value = "Returns pet inventories by status")
+    @Link(value = "1. Returns pet inventories by status")
     void returnsPetInventoriesByStatus() {
         Inventory inventoryMap = Inventory.builder()
                 .inventory(spec.getStringIntegerMap())
@@ -32,7 +32,7 @@ class ReturnsPetInventoriesByStatus {
 
 
     @Test
-    @Link(value = "Returns pet inventories by status")
+    @Link(value = "2. Place a correct order for a pet")
     void placeAnCorrectOrderForAPet() {
         Order actualOrder = Orders.ORDER_WITH_ID_1;
         Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_1)
@@ -44,7 +44,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Returns pet inventories by status")
+    @Link(value = "3. Place a nobody order for a pet")
     void placeAnNoBodyOrderForAPet() {
         Order expectedOrder = Orders.ORDER_NO_BODY;
         Order actualOrder = spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY)
@@ -55,7 +55,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Returns pet inventories by status")
+    @Link(value = "4. Place a non-correct order for a pet")
     void placeAnNonCorrectOrderForAPet() {
         Order expectedOrder = Orders.ORDER_WITH_ID_MINUS_50;
         Order actualOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_MINUS_50)
@@ -66,7 +66,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Returns pet inventories by status")
+    @Link(value = "5. Find existent purchase order by ID")
     void findExistentPurchaseOrderByID() {
         Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_25)
                 .statusCode(200)
@@ -82,7 +82,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Returns pet inventories by status")
+    @Link(value = "6. Find a purchase order with an invalid ID")
     void findExistentPurchaseOrderByID400() {
         Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY1)
                 .statusCode(200)
@@ -98,7 +98,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Returns pet inventories by status")
+    @Link(value = "7. Find a non-existent purchase order by ID")
     void findANonExistentPurchaseOrderByID() {
         spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_MINUS_1)
                 .statusCode(200);
@@ -112,7 +112,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Returns pet inventories by status")
+    @Link(value = "Delete existent purchase order by ID")
     void deleteExistentPurchaseOrderByID() {
         spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_5)
                 .statusCode(200);
@@ -128,7 +128,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Returns pet inventories by status")
+    @Link(value = "Delete existent purchase order with an invalid  ID")
     void deleteExistentPurchaseOrderByID400() {
         spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY1)
                 .statusCode(200);
@@ -143,7 +143,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Returns pet inventories by status")
+    @Link(value = "Delete a non existent purchase order by ID")
     void deleteANonExistentPurchaseOrderByID() {
         ApiResponse expectedResponse = ApiResponses.API_RESPONSE_DELETE_NON_EXISTENT_ORDER;
 
