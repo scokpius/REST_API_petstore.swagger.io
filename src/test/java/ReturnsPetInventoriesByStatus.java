@@ -2,6 +2,7 @@ import data_classes.ApiResponse;
 import data_classes.Inventory;
 import data_classes.Order;
 import io.qameta.allure.Link;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import specification.Specification;
 
@@ -12,13 +13,13 @@ class ReturnsPetInventoriesByStatus {
     private Specification spec = new Specification();
 
 
-//    @BeforeEach
-//    void cleanOrders() {
-//        spec.deletePurchaseOrderByID(1);
-//        spec.deletePurchaseOrderByID(5);
-//        spec.deletePurchaseOrderByID(8);
-//        spec.deletePurchaseOrderByID(25);
-//    }
+    @BeforeEach
+    void cleanOrders() {
+        spec.deletePurchaseOrderByID(1);
+        spec.deletePurchaseOrderByID(5);
+        spec.deletePurchaseOrderByID(8);
+        spec.deletePurchaseOrderByID(25);
+    }
 
     @Test
     @Link(value = "1. Returns pet inventories by status")
