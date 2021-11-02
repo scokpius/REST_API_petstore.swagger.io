@@ -11,8 +11,6 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <aspectjweaver.version>1.9.6</aspectjweaver.version>
-        <aspectj.version>1.9.6</aspectj.version>
     </properties>
     <build>
         <plugins>
@@ -35,19 +33,6 @@
             </plugin>
         </plugins>
     </build>
-    <reporting>
-        <excludeDefaults>true</excludeDefaults>
-        <plugins>
-            <plugin>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-maven</artifactId>
-                <version>2.10.0</version>
-                <configuration>
-                    <reportVersion>2.10.0</reportVersion>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -91,7 +76,7 @@
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
-            <version>2.15.0</version>
+            <version>2.14.0</version>
         </dependency>
     </dependencies>
 </project>
