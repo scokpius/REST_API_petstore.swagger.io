@@ -10,7 +10,7 @@ import specification.Specification;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class ReturnsPetInventoriesByStatus {
+class ReturnsPetInventoriesByStatusTests {
     private Specification spec = new Specification();
 
 
