@@ -3,6 +3,7 @@ import data_classes.ApiResponse;
 import data_classes.Inventory;
 import data_classes.Order;
 import io.qameta.allure.Link;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import specification.Specification;
 
@@ -13,16 +14,16 @@ class ReturnsPetInventoriesByStatus {
     private Specification spec = new Specification();
 
 
-//    @BeforeEach
-//    void cleanOrders() {
-//        spec.deletePurchaseOrderByID(1);
-//        spec.deletePurchaseOrderByID(5);
-//        spec.deletePurchaseOrderByID(8);
-//        spec.deletePurchaseOrderByID(25);
-//    }
+    @BeforeEach
+    void cleanOrders() {
+        spec.deletePurchaseOrderByID(1);
+        spec.deletePurchaseOrderByID(5);
+        spec.deletePurchaseOrderByID(8);
+        spec.deletePurchaseOrderByID(25);
+    }
 
     @Test
-    @Link(value = "Returns pet inventories by status")
+    @Link(value = "1. Returns pet inventories by status")
     void returnsPetInventoriesByStatus() {
         Inventory inventoryMap = Inventory.builder()
                 .inventory(spec.getStringIntegerMap())
@@ -30,9 +31,8 @@ class ReturnsPetInventoriesByStatus {
         assertTrue(inventoryMap.getInventory().size() > 0);
     }
 
-
     @Test
-    @Link(value = "Place an correct order for a pet")
+    @Link(value = "2. Place a correct order for a pet")
     void placeAnCorrectOrderForAPet() {
         Order actualOrder = Orders.ORDER_WITH_ID_1;
         Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_1)
@@ -44,7 +44,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Place an no body order for a pet")
+    @Link(value = "3. Place a nobody order for a pet")
     void placeAnNoBodyOrderForAPet() {
         Order expectedOrder = Orders.ORDER_NO_BODY;
         Order actualOrder = spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY)
@@ -55,7 +55,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Place an non correct order for a pet")
+    @Link(value = "4. Place a non-correct order for a pet")
     void placeAnNonCorrectOrderForAPet() {
         Order expectedOrder = Orders.ORDER_WITH_ID_MINUS_50;
         Order actualOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_MINUS_50)
@@ -66,14 +66,14 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Find existent purchase order by ID")
+    @Link(value = "5. Find existent purchase order by ID")
     void findExistentPurchaseOrderByID() {
         Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_25)
                 .statusCode(200)
                 .extract()
                 .body()
                 .as(Order.class);
-        Order actualOrder = spec.findPurchaseOrderByID(expectedOrder.getId())
+        Order actualOrder = spec.findPurchaseOrderByID(25)
                 .statusCode(200)
                 .extract()
                 .body()
@@ -82,7 +82,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Find a purchase order with an invalid ID")
+    @Link(value = "6. Find a purchase order with an invalid ID")
     void findExistentPurchaseOrderByID400() {
         Order expectedOrder = spec.placeAnOrderForAPet(Orders.ORDER_NO_BODY1)
                 .statusCode(200)
@@ -90,7 +90,7 @@ class ReturnsPetInventoriesByStatus {
                 .body()
                 .as(Order.class);
         Order actualOrder = spec.findPurchaseOrderByID(expectedOrder.getId())
-                .statusCode(400)
+                .statusCode(200)
                 .extract()
                 .body()
                 .as(Order.class);
@@ -98,7 +98,7 @@ class ReturnsPetInventoriesByStatus {
     }
 
     @Test
-    @Link(value = "Find a non existent purchase order by ID")
+    @Link(value = "7. Find a non-existent purchase order by ID")
     void findANonExistentPurchaseOrderByID() {
         spec.placeAnOrderForAPet(Orders.ORDER_WITH_ID_MINUS_1)
                 .statusCode(200);
