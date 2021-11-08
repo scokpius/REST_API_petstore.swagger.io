@@ -14,13 +14,13 @@ class ReturnsPetInventoriesByStatusTests {
     private Specification spec = new Specification();
 
 
-    @BeforeEach
-    void cleanOrders() {
-        spec.deletePurchaseOrderByID(1);
-        spec.deletePurchaseOrderByID(5);
-        spec.deletePurchaseOrderByID(8);
-        spec.deletePurchaseOrderByID(25);
-    }
+//    @BeforeEach
+//    void cleanOrders() {
+//        spec.deletePurchaseOrderByID(1);
+//        spec.deletePurchaseOrderByID(5);
+//        spec.deletePurchaseOrderByID(8);
+//        spec.deletePurchaseOrderByID(25);
+//    }
 
     @Test
     @Link(value = "1. Returns pet inventories by status",
